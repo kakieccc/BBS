@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: bbs
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bbs
+    username: root
+    password:
+server:
+  port: 8081
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
