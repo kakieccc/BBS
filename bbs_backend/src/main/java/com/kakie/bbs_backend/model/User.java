@@ -24,7 +24,7 @@ public class User implements Serializable {
     /**
      * 用户昵称
      */
-    private String username;
+    private String userName;
 
     /**
      * 账号
@@ -67,7 +67,7 @@ public class User implements Serializable {
     private Date createTime;
 
     /**
-     * 
+     *  更新时间
      */
     private Date updateTime;
 
@@ -77,7 +77,7 @@ public class User implements Serializable {
     private Integer isDelete;
 
     /**
-     * 用户角色 0 - 普通用户 1 - 管理员
+     * 用户权限 0 - 普通用户 1 - 管理员
      */
     private Integer userRole;
 
