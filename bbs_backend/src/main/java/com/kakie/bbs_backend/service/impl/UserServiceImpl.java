@@ -5,17 +5,21 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kakie.bbs_backend.common.ErrorCode;
 import com.kakie.bbs_backend.exception.BusinessException;
 import com.kakie.bbs_backend.mapper.UserMapper;
-import com.kakie.bbs_backend.model.User;
+import com.kakie.bbs_backend.model.domain.User;
 import com.kakie.bbs_backend.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.kakie.bbs_backend.contant.UserContant.USER_LOGIN_STATE;
 
@@ -152,6 +156,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         safetyUser.setUserRole(originUser.getUserRole());
         safetyUser.setUserStatus(originUser.getUserStatus());
         safetyUser.setCreateTime(originUser.getCreateTime());
+        safetyUser.setUpdateTime(originUser.getUpdateTime());
+        safetyUser.setTags(originUser.getTags());
         return safetyUser;
     }
 
@@ -165,6 +171,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 移除登录态
         request.getSession().removeAttribute(USER_LOGIN_STATE);
         return 1;
+    }
+
+    /**
+     * 根据标签搜索用户
+     * @param tagList 用户对应的标签列表
+     * @return
+     */
+    @Override
+    public List<User> searchUserByTag(List<String> tagList) {
+        if(CollectionUtils.isEmpty(tagList)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        QueryWrapper<User> queryWrapper = new QueryWrapper();
+        for(String tag : tagList){
+            queryWrapper = queryWrapper.like("tags",tag);
+        }
+        List<User> userList = userMapper.selectList(queryWrapper);
+        return  userList.stream().map(this::getSafetyUser).collect(Collectors.toList());
     }
 
 }

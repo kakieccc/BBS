@@ -1,4 +1,4 @@
-package com.kakie.bbs_backend.model.domain.request;
+package com.kakie.bbs_backend.model.request;
 
 import lombok.Data;
 

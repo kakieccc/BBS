@@ -1,8 +1,10 @@
 package com.kakie.bbs_backend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kakie.bbs_backend.model.User;
+import com.kakie.bbs_backend.model.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.List;
 
 /**
  * 用户服务
@@ -44,4 +46,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     int userLogout(HttpServletRequest request);
+
+    /**
+     * 根据标签搜索用户
+     * @param tagList 用户对应的标签列表
+     * @return
+     */
+    List<User> searchUserByTag(List<String> tagList);
 }
