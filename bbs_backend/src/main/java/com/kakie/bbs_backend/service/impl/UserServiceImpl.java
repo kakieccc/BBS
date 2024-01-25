@@ -2,6 +2,8 @@ package com.kakie.bbs_backend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kakie.bbs_backend.common.ErrorCode;
 import com.kakie.bbs_backend.exception.BusinessException;
 import com.kakie.bbs_backend.mapper.UserMapper;
@@ -15,8 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -174,21 +175,56 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     /**
-     * 根据标签搜索用户
+     * 根据标签搜索用户  Search by SQL
      * @param tagList 用户对应的标签列表
      * @return
      */
     @Override
-    public List<User> searchUserByTag(List<String> tagList) {
+    @Deprecated
+    public List<User> searchUserBySQL(List<String> tagList){
         if(CollectionUtils.isEmpty(tagList)){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        QueryWrapper<User> queryWrapper = new QueryWrapper();
-        for(String tag : tagList){
-            queryWrapper = queryWrapper.like("tags",tag);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        // 拼接 and 查询
+        // like '%Java%' and like '%Python%'
+        for (String tagName : tagList) {
+            queryWrapper = queryWrapper.like("tags", tagName);
         }
         List<User> userList = userMapper.selectList(queryWrapper);
-        return  userList.stream().map(this::getSafetyUser).collect(Collectors.toList());
+        return userList.stream().map(this::getSafetyUser).collect(Collectors.toList());
+    }
+
+    /**
+     * 根据标签搜索用户  Search by json
+     * @param tagList 用户对应的标签列表
+     * @return
+     */
+    @Override
+    public List<User> searchUserByTags(List<String> tagList){
+        if(CollectionUtils.isEmpty(tagList)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        //1. 先查询所有用户
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        List<User> userList = userMapper.selectList(queryWrapper);
+        Gson gson = new Gson();
+        //2. 在内存中判断是否包含要求的标签
+        return userList.stream().filter( user -> {
+            String tagsStr = user.getTags();
+            if(StringUtils.isBlank(tagsStr)){
+                return false;
+            }
+            // tags json字符串换string 数组
+            Set<String> tempTagNameSet = gson.fromJson(tagsStr, new TypeToken<Set<String>>() {}.getType());
+            tempTagNameSet = Optional.ofNullable(tempTagNameSet).orElse(new HashSet<>());
+            for (String tagName : tagList) {
+                if(!tempTagNameSet.contains(tagName)){
+                    return false;
+                }
+            }
+            return true;
+        }).map(this::getSafetyUser).collect(Collectors.toList());
     }
 
 }
