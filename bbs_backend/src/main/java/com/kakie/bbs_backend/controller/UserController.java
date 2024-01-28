@@ -9,6 +9,8 @@ import com.kakie.bbs_backend.model.domain.User;
 import com.kakie.bbs_backend.model.request.UserLoginRequest;
 import com.kakie.bbs_backend.model.request.UserRegisterRequest;
 import com.kakie.bbs_backend.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +27,7 @@ import static com.kakie.bbs_backend.contant.UserContant.USER_LOGIN_STATE;
  */
 @RestController
 @RequestMapping("/user")
+@Tag(name = "用户接口")
 public class UserController {
 
     @Resource
@@ -37,6 +40,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
+    @Operation(summary = "用户注册")
     public BaseResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest) {
         // 校验
         if (userRegisterRequest == null) {
@@ -61,6 +65,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
+    @Operation(summary = "用户登录")
     public BaseResponse<User> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
         if (userLoginRequest == null) {
             return ResultUtils.error(ErrorCode.PARAMS_ERROR);
@@ -81,6 +86,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/logout")
+    @Operation(summary = "用户注销")
     public BaseResponse<Integer> userLogout(HttpServletRequest request) {
         if (request == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
@@ -96,6 +102,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/current")
+    @Operation(summary = "获取当前用户")
     public BaseResponse<User> getCurrentUser(HttpServletRequest request) {
         Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
         User currentUser = (User) userObj;
@@ -110,6 +117,7 @@ public class UserController {
     }
 
     @GetMapping("/search")
+    @Operation(summary = "搜索用户")
     public BaseResponse<List<User>> searchUsers(String username, HttpServletRequest request) {
         if (!isAdmin(request)) {
             throw new BusinessException(ErrorCode.NO_AUTH, "缺少管理员权限");
@@ -124,6 +132,7 @@ public class UserController {
     }
 
     @PostMapping("/delete")
+    @Operation(summary = "删除用户")
     public BaseResponse<Boolean> deleteUser(@RequestBody long id, HttpServletRequest request) {
         if (!isAdmin(request)) {
             throw new BusinessException(ErrorCode.NO_AUTH);

@@ -8,6 +8,8 @@
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="tagName" column="tagName" jdbcType="VARCHAR"/>
             <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="parentId" column="parentId" jdbcType="BIGINT"/>
+            <result property="isParent" column="isParent" jdbcType="TINYINT"/>
             <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
             <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
@@ -15,6 +17,7 @@
 
     <sql id="Base_Column_List">
         id,tagName,userId,
-        createTime,updateTime,isDelete
+        parentId,isParent,createTime,
+        updateTime,isDelete
     </sql>
 </mapper>

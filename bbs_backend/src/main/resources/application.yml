@@ -5,7 +5,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/bbs
     username: root
-    password:
+    password: aqaed.19.03.q
     # session 失效时间
   session:
     timeout: 86400
@@ -22,3 +22,20 @@ mybatis-plus:
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
 
+#springdoc相关配置
+springdoc:
+  swagger-ui:
+    #自定义swagger前端请求路径，输入http：127.0.0.1:8080/swagger-ui.html会自动重定向到swagger页面
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs    #swagger后端请求地址
+    enabled: true   #是否开启文档功能
+  group-configs:
+    - group: 'com.kakie.bbs_backend'
+      paths-to-match: '/**'
+      packages-to-scan: com.kakie.bbs_backend    #按包路径匹配:一般到启动类的包名
+#knife4j相关配置 可以不用改
+knife4j:
+  enable: true    #开启knife4j，无需添加@EnableKnife4j注解
+  setting:
+    language: zh_cn   #中文
