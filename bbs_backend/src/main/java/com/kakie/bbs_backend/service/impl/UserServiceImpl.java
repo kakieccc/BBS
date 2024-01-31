@@ -176,56 +176,39 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     /**
-     * 根据标签搜索用户  Search by SQL
-     * @param tagList 用户对应的标签列表
-     * @return
-     */
-    @Override
-    @Deprecated
-    public List<User> searchUserBySQL(List<String> tagList){
-        if(CollectionUtils.isEmpty(tagList)){
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        // 拼接 and 查询
-        // like '%Java%' and like '%Python%'
-        for (String tagName : tagList) {
-            queryWrapper = queryWrapper.like("tags", tagName);
-        }
-        List<User> userList = userMapper.selectList(queryWrapper);
-        return userList.stream().map(this::getSafetyUser).collect(Collectors.toList());
-    }
-
-    /**
      * 根据标签搜索用户  Search by json
      * @param tagList 用户对应的标签列表
      * @return
      */
+    /**
+     * 根据标签搜索用户（内存过滤）
+     *
+     * @param tagNameList 用户要拥有的标签
+     * @return
+     */
     @Override
-    public List<User> searchUserByTags(List<String> tagList){
-        if(CollectionUtils.isEmpty(tagList)){
+    public List<User> searchUserByTags(List<String> tagNameList) {
+        if (CollectionUtils.isEmpty(tagNameList)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        //1. 先查询所有用户
+        // 1. 先查询所有用户
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         List<User> userList = userMapper.selectList(queryWrapper);
         Gson gson = new Gson();
-        //2. 在内存中判断是否包含要求的标签
-        return userList.stream().filter( user -> {
+        // 2. 在内存中判断是否包含要求的标签
+        return userList.stream().filter(user -> {
             String tagsStr = user.getTags();
-            if(StringUtils.isBlank(tagsStr)){
-                return false;
-            }
-            // tags json字符串换string 数组
-            Set<String> tempTagNameSet = gson.fromJson(tagsStr, new TypeToken<Set<String>>() {}.getType());
+            Set<String> tempTagNameSet = gson.fromJson(tagsStr, new TypeToken<Set<String>>() {
+            }.getType());
             tempTagNameSet = Optional.ofNullable(tempTagNameSet).orElse(new HashSet<>());
-            for (String tagName : tagList) {
-                if(!tempTagNameSet.contains(tagName)){
+            for (String tagName : tagNameList) {
+                if (!tempTagNameSet.contains(tagName)) {
                     return false;
                 }
             }
             return true;
         }).map(this::getSafetyUser).collect(Collectors.toList());
     }
+
 
 }

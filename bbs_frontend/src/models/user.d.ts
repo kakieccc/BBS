@@ -3,6 +3,7 @@ export type UserType = {
     userName:string;
     userAccount:string;
     avatarUrl?:string;
+    profile?:string;
     gender:number;
     phone:string;
     email:string;

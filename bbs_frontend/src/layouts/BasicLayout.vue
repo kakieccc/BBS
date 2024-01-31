@@ -25,7 +25,7 @@
         <van-tabbar-item icon="home-o" replace to = "/" name = "home">首页</van-tabbar-item>
         <van-tabbar-item icon="search" replace to = "/search" name = "search">搜索</van-tabbar-item>
         <van-tabbar-item icon="friends-o" replace to = "/friend" name = "friend">好友</van-tabbar-item>
-        <van-tabbar-item icon="setting-o" replace to = "/setting" name = "setting">设置</van-tabbar-item>
+        <van-tabbar-item icon="setting-o" replace to = "/user" name = "setting">个人</van-tabbar-item>
     </van-tabbar>
 
 
