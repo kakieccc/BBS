@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
   import { onMounted, ref } from 'vue';
   import { useRoute } from 'vue-router';
   import myAxios from '../plugins/myAxios.ts';
@@ -6,9 +6,10 @@
 
   const route = useRoute();
   const { tags } = route.query;
+  const userList = ref([]);
 
-  onMounted(() => {
-    myAxios.get('/user/search/tags',{
+  onMounted(async () => {
+    const userListData = await myAxios.get('/user/search/tags',{
       params: {
         tagNameList:tags
       },
@@ -19,27 +20,22 @@
     .then(function (response) {
       // 处理成功情况
       console.log('/user/search/tags succeed',response);
+      return response.data?.data;
     })
     .catch(function (error) {
       // 处理错误情况
       console.error('/user/search/tags error',error);
     })
+    if(userListData) {
+      userListData.forEach(user => {
+        if(user.tags) {
+          user.tags = JSON.parse(user.tags);
+        }
+      })
+      userList.value = userListData;
+    }
   })
 
-  const mockUser = {
-    id:12334,
-    userName:'kakie',
-    userAccount:'111111',
-    avatarUrl:null,
-    profile:'个人简介',
-    gender:0,
-    phone:'12312412414',
-    email:'xxx@gg.aa',
-    userRole:0,
-    tags:['java', 'emo','test1111111111','自闭中'],
-    createtime:new Date()
-  }
-  const userList = ref([mockUser]);
 </script>
 
 <template>
@@ -56,6 +52,8 @@
       <van-button size="mini">联系我</van-button>
     </template>
   </van-card>
+  <!-- 搜索提示 -->
+  <van-empty image="search" description="找不到对应标签的用户" v-if="!userList || userList.length < 1"/>
 </template>
   
 <style scoped>

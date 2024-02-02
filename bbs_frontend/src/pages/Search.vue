@@ -84,7 +84,7 @@ const doSearchResult = () => {
     />
   </form>
   <van-divider content-position="left">已选标签</van-divider>
-  <div v-if="activeIds.length === 0">请选择标签</div>
+  <div v-if="activeIds.length === 0"></div>
   <van-row gutter="16" style="padding: 0 16px">
     <van-col v-for="tag in activeIds">
       <van-tag  closeable size="small" type="primary" @close="doClose(tag)">
@@ -93,17 +93,15 @@ const doSearchResult = () => {
     </van-col>
   </van-row>
 
-  <van-button type="primary" @click="doSearchResult">
-    搜索
-  </van-button>
-
   <van-divider content-position="left">选择标签</van-divider>
   <van-tree-select
     v-model:active-id="activeIds"
     v-model:main-active-index="activeIndex"
     :items="tagList"
   />
-
+  <van-button type="primary" @click="doSearchResult" style="width: 95%; margin-top: 10px; margin-left: 2.5%;">
+    搜索
+  </van-button>
 
 </template>
 

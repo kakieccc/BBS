@@ -1,7 +1,7 @@
 import Index from '../pages/Index.vue'
 import Friend from '../pages/Friend.vue'
 import Search from '../pages/Search.vue'
-import Setting from '../pages/Setting.vue'
+import User from '../pages/User.vue'
 import Edit from '../pages/Edit.vue'
 import SearchResult from '../pages/SearchResult.vue'
 
@@ -11,7 +11,7 @@ const routes = [
   { path: '/', component: Index },
   { path: '/friend', component: Friend },
   { path: '/search', component: Search },
-  { path: '/user', component: Setting },
+  { path: '/user', component: User },
   { path: '/user/edit/', component: Edit },
   { path: '/user/list', component: SearchResult },
 ]
