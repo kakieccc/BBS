@@ -21,7 +21,7 @@ public class User implements Serializable {
      */
     @TableId(type = IdType.AUTO)
     @Schema(name = "id", description = "id")
-    private Long id;
+    private long id;
 
     /**
      * 用户昵称
