@@ -1,11 +1,5 @@
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
+<template>好友</template>
 
-<template>
-  好友
-</template>
-  
-<style scoped>
-
-</style>
+<style scoped></style>

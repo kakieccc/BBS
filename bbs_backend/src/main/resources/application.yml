@@ -21,7 +21,7 @@ server:
     context-path: /api
     session:
       cookie:
-        domain:
+        domain: localhost
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false

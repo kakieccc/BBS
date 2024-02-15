@@ -1,30 +1,31 @@
 <script setup lang="ts">
-import {ref} from 'vue';
-import {useRouter} from "vue-router";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-const router = useRouter()
+const router = useRouter();
 
-const searchText = ref('');
+const searchText = ref("");
 
-const originTagList = [{
-  text: '性别',
-  children: [
-    {text: '男', id: '男'},
-    {text: '女', id: '女'},
-  ],
-},
+const originTagList = [
   {
-    text: '年级',
+    text: "性别",
     children: [
-      {text: '大一', id: '大一'},
-      {text: '大二', id: '大二'},
-      {text: '大3', id: '大3'},
-      {text: '大4', id: '大4'},
-      {text: '大5', id: '大5aaaaaaa'},
-      {text: '大6', id: '大6aaaaaaa'},
+      { text: "男", id: "男" },
+      { text: "女", id: "女" },
     ],
   },
-]
+  {
+    text: "年级",
+    children: [
+      { text: "大一", id: "大一" },
+      { text: "大二", id: "大二" },
+      { text: "大3", id: "大3" },
+      { text: "大4", id: "大4" },
+      { text: "大5", id: "大5aaaaaaa" },
+      { text: "大6", id: "大6aaaaaaa" },
+    ],
+  },
+];
 
 // 标签列表
 let tagList = ref(originTagList);
@@ -34,16 +35,17 @@ let tagList = ref(originTagList);
  * @param val
  */
 const onSearch = () => {
-  tagList.value = originTagList.map(parentTag => {
+  tagList.value = originTagList.map((parentTag) => {
     const tempChildren = [...parentTag.children];
-    const tempParentTag = {...parentTag};
-    tempParentTag.children = tempChildren.filter(item => item.text.includes(searchText.value));
+    const tempParentTag = { ...parentTag };
+    tempParentTag.children = tempChildren.filter((item) =>
+      item.text.includes(searchText.value)
+    );
     return tempParentTag;
   });
-
-}
+};
 const onCancel = () => {
-  searchText.value = '';
+  searchText.value = "";
   tagList.value = originTagList;
 };
 
@@ -53,24 +55,22 @@ const activeIndex = ref(0);
 
 // 移除标签
 const doClose = (tag: any) => {
-  activeIds.value = activeIds.value.filter(item => {
+  activeIds.value = activeIds.value.filter((item) => {
     return item !== tag;
-  })
-}
+  });
+};
 
 /**
  * 执行搜索
  */
 const doSearchResult = () => {
   router.push({
-    path: '/user/list',
+    path: "/user/list",
     query: {
-      tags: activeIds.value
-    }
-  })
-}
-
-                                        
+      tags: activeIds.value,
+    },
+  });
+};
 </script>
 
 <template>
@@ -80,14 +80,14 @@ const doSearchResult = () => {
       show-action
       placeholder="请输入搜索标签"
       @search="onSearch"
-    @cancel="onCancel"
+      @cancel="onCancel"
     />
   </form>
   <van-divider content-position="left">已选标签</van-divider>
   <div v-if="activeIds.length === 0"></div>
   <van-row gutter="16" style="padding: 0 16px">
     <van-col v-for="tag in activeIds">
-      <van-tag  closeable size="small" type="primary" @close="doClose(tag)">
+      <van-tag closeable size="small" type="primary" @close="doClose(tag)">
         {{ tag }}
       </van-tag>
     </van-col>
@@ -99,13 +99,13 @@ const doSearchResult = () => {
     v-model:main-active-index="activeIndex"
     :items="tagList"
   />
-  <van-button type="primary" @click="doSearchResult" style="width: 95%; margin-top: 10px; margin-left: 2.5%;">
+  <van-button
+    type="primary"
+    @click="doSearchResult"
+    style="width: 95%; margin-top: 10px; margin-left: 2.5%"
+  >
     搜索
   </van-button>
-
 </template>
 
-                                          
-<style scoped>
-                                      
-</style>
+<style scoped></style>
