@@ -88,6 +88,12 @@
             <artifactId>spring-session-data-redis</artifactId>
             <version>3.2.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.session/spring-session-core -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-core</artifactId>
+            <version>3.2.1</version>
+        </dependency>
 
 
         <dependency>
