@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -35,7 +36,8 @@ public class InsertUserTest {
         List<CompletableFuture<Void>> futureList = new ArrayList<>();
         //根据数据量和插入批量来计算需要循环的次数。
         for (int i = 0; i < INSERT_NUM / batchSize; i++) {
-            List<User> userList = new ArrayList<>();
+            //用多线程记得不能使用不安全的集合，得转换一下
+            List<User> userList = Collections.synchronizedList(new ArrayList<>());
             while (true) {
                 j++;
                 User user = new User();

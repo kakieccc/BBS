@@ -1,6 +1,7 @@
 package com.kakie.bbs_backend.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kakie.bbs_backend.common.BaseResponse;
 import com.kakie.bbs_backend.common.ErrorCode;
 import com.kakie.bbs_backend.common.ResultUtils;
@@ -133,11 +134,10 @@ public class UserController {
 
     @GetMapping("/recommend")
     @Operation(summary = "首页推荐用户")
-    public BaseResponse<List<User>> recommendUsers(HttpServletRequest request) {
+    public BaseResponse<Page<User>> recommendUsers(long pageSize, long pageNum, HttpServletRequest request){
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        List<User> userList = userService.list(queryWrapper);
-        List<User> list = userList.stream().map(user -> userService.getSafetyUser(user)).collect(Collectors.toList());
-        return ResultUtils.success(list);
+        Page<User> userList = userService.page(new Page<>(pageNum, pageSize), queryWrapper);
+        return ResultUtils.success(userList);
     }
 
     @GetMapping("/search/tags")
