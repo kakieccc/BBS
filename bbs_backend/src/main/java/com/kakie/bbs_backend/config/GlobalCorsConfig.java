@@ -8,7 +8,7 @@
 //import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //
 ///**
-// * 跨域配置
+// * 跨域配置类
 // */
 //@Configuration
 //public class GlobalCorsConfig implements WebMvcConfigurer {

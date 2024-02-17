@@ -14,10 +14,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static com.kakie.bbs_backend.contant.UserContant.ADMIN_ROLE;
@@ -30,11 +34,14 @@ import static com.kakie.bbs_backend.contant.UserContant.USER_LOGIN_STATE;
 @RequestMapping("/user")
 @CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
 @Tag(name = "用户接口")
+@Slf4j
 public class UserController {
 
     @Resource
     private UserService userService;
 
+    @Resource
+    private RedisTemplate redisTemplate;
     /**
      * 用户注册
      *
@@ -132,12 +139,32 @@ public class UserController {
         return ResultUtils.success(list);
     }
 
+    /**
+     * 推荐页面
+     * @param request
+     * @return
+     */
     @GetMapping("/recommend")
-    @Operation(summary = "首页推荐用户")
-    public BaseResponse<Page<User>> recommendUsers(long pageSize, long pageNum, HttpServletRequest request){
+    @Operation(summary = "首页推荐")
+    public BaseResponse<Page<User>> recommendUsers(long pageSize,long pageNum, HttpServletRequest request){
+        User loginUser = userService.getLoginUser(request);
+        String redisKey = String.format("bbs:user:recommend:%s", loginUser.getId());
+        ValueOperations<String,Object> valueOperations = redisTemplate.opsForValue();
+        //如果有缓存，直接读缓存
+        Page<User> userPage= (Page<User>)valueOperations.get(redisKey);
+        if (userPage!=null){
+            return ResultUtils.success(userPage);
+        }
+        //无缓存，查数据库
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        Page<User> userList = userService.page(new Page<>(pageNum, pageSize), queryWrapper);
-        return ResultUtils.success(userList);
+        userPage = userService.page(new Page<>(pageNum, pageSize), queryWrapper);
+        //写缓存
+        try {
+            valueOperations.set(redisKey,userPage,30000, TimeUnit.MILLISECONDS);
+        }catch (Exception e){
+            log.error("redis set key error",e);
+        }
+        return ResultUtils.success(userPage);
     }
 
     @GetMapping("/search/tags")
