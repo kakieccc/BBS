@@ -22,7 +22,9 @@ const onClickRight = () => {
     </template>
   </van-nav-bar>
 
-  <router-view></router-view>
+  <div id="content">
+    <router-view/>
+  </div>
   <van-tabbar route>
     <van-tabbar-item icon="home-o" replace to="/" name="home"
       >首页</van-tabbar-item
@@ -39,4 +41,8 @@ const onClickRight = () => {
   </van-tabbar>
 </template>
 
-<style></style>
+<style scoped>
+#content {
+  padding-bottom: 50px;
+}
+</style>

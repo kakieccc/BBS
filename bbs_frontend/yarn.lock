@@ -62,6 +62,11 @@
   resolved "https://registry.npmmirror.com/@types/estree/-/estree-1.0.5.tgz"
   integrity sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==
 
+"@types/qs@^6.9.11":
+  version "6.9.11"
+  resolved "https://registry.npmmirror.com/@types/qs/-/qs-6.9.11.tgz"
+  integrity sha512-oGk0gmhnEJK4Yyk+oI7EfXsLayXatCWPHary1MtcmbAifkobT9cM9yutG/hZKIseOU0MqbIwQ/u2nn/Gb+ltuQ==
+
 "@vant/auto-import-resolver@^1.0.2":
   version "1.0.2"
   resolved "https://registry.npmmirror.com/@vant/auto-import-resolver/-/auto-import-resolver-1.0.2.tgz"
