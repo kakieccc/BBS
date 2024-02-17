@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import myAxios from "../plugins/myAxios";
 const userAccount = ref("");
 const userPassword = ref("");
-const router = useRouter();
+const route = useRoute();
 const onSubmit = async () => {
   const res = await myAxios.post('/user/login',{
     userAccount: userAccount.value,
     userPassword: userPassword.value,
   })
   if(res.status === 200 && res.data) {
-    router.replace("/");
+    //登陆成功后跳转到之前的页面
+    const redirectUrl = route.query?.redirect as string ?? '/';
+    window.location.href = redirectUrl;
+
   } else {
   }
 };
