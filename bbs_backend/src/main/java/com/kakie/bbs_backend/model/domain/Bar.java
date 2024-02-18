@@ -7,12 +7,12 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 标签
- * @TableName tag
+ * 分区
+ * @TableName bar
  */
-@TableName(value ="tag")
+@TableName(value ="bar")
 @Data
-public class Tag implements Serializable {
+public class Bar implements Serializable {
     /**
      * id
      */
@@ -20,24 +20,34 @@ public class Tag implements Serializable {
     private Long id;
 
     /**
-     * 标签名称
+     * 分区名称
      */
-    private String tagName;
+    private String name;
 
     /**
-     * 用户 id
+     * 描述
+     */
+    private String description;
+
+    /**
+     * 过期时间
+     */
+    private Date expireTime;
+
+    /**
+     * 用户id
      */
     private Long userId;
 
     /**
-     * 父标签 id
+     * 0 - 公开，1 - 私有，2 - 加密
      */
-    private Long parentId;
+    private Integer status;
 
     /**
-     * 0 - 不是, 1 - 父标签
+     * 密码
      */
-    private Integer isParent;
+    private String password;
 
     /**
      * 创建时间
