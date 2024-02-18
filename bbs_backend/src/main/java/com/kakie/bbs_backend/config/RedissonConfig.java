@@ -7,16 +7,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.File;
-
 /**
  * Redisson配置
  */
 @Configuration
 @ConfigurationProperties(prefix = "spring.data.redis")
 public class RedissonConfig {
-    private String port;
-    private String host;
+    private String port = "6379";
+    private String host = "localhost";
     @Bean
     public RedissonClient redissonClient() {
         // 1. Create config object
