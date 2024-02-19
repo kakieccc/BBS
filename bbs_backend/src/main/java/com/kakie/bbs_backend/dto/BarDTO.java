@@ -21,6 +21,10 @@ public class BarDTO extends PageRequest {
     private String description;
 
     /**
+     * 搜索关键字
+     */
+    private String keyword;
+    /**
      * 用户id
      */
     private Long userId;

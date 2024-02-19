@@ -1,8 +1,12 @@
 package com.kakie.bbs_backend.service;
 
+import com.kakie.bbs_backend.dto.BarDTO;
 import com.kakie.bbs_backend.model.domain.Bar;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kakie.bbs_backend.model.domain.User;
+import com.kakie.bbs_backend.vo.UserBarVO;
+
+import java.util.List;
 
 /**
 * @author 29967
@@ -17,4 +21,12 @@ public interface BarService extends IService<Bar> {
      * @return
      */
     long addBar(Bar bar, User loginUser);
+
+    /**
+     * 查询队伍列表
+     * @param barDTO
+     * @param isAdmin
+     * @return
+     */
+    List<UserBarVO> listTeams(BarDTO barDTO, boolean isAdmin);
 }

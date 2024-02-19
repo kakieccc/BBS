@@ -12,6 +12,7 @@ import com.kakie.bbs_backend.model.domain.User;
 import com.kakie.bbs_backend.model.request.BarAddRequest;
 import com.kakie.bbs_backend.service.BarService;
 import com.kakie.bbs_backend.service.UserService;
+import com.kakie.bbs_backend.vo.UserBarVO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -82,14 +83,12 @@ public class BarController {
     }
 
     @GetMapping("/list")
-    public BaseResponse<List<Bar>> listBars(BarDTO barDTO) {
-        if (barDTO == null) {
+    public BaseResponse<List<UserBarVO>> listTeams(BarDTO barDTO, HttpServletRequest request){
+        if (barDTO == null){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        Bar bar = new Bar();
-        BeanUtils.copyProperties(bar, barDTO);
-        QueryWrapper<Bar> queryWrapper = new QueryWrapper<>(bar);
-        List<Bar> barList = barService.list(queryWrapper);
+        boolean isAdmin = userService.isAdmin(request);
+        List<UserBarVO> barList = barService.listTeams(barDTO,isAdmin);
         return ResultUtils.success(barList);
     }
 
