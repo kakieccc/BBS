@@ -30,11 +30,6 @@ public class Bar implements Serializable {
     private String description;
 
     /**
-     * 过期时间
-     */
-    private Date expireTime;
-
-    /**
      * 用户id
      */
     private Long userId;

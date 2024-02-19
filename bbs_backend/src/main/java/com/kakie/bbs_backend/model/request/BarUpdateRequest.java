@@ -2,12 +2,20 @@ package com.kakie.bbs_backend.model.request;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.io.Serializable;
 
+/**
+ * 分区修改请求体
+ */
 @Data
-public class BarAddRequest {
+public class BarUpdateRequest implements Serializable {
 
-    private static final long serialVersionUID = -4162304142710323660L;
+    private static final long serialVersionUID = -6043915331807008592L;
+
+    /**
+     * id
+     */
+    private Long id;
 
     /**
      * 分区名称
@@ -18,11 +26,6 @@ public class BarAddRequest {
      * 描述
      */
     private String description;
-
-    /**
-     * 用户id
-     */
-    private Long userId;
 
     /**
      * 0 - 公开，1 - 私有，2 - 加密

@@ -1,7 +1,7 @@
 package com.kakie.bbs_backend.common;
 
 /**
- * 队伍状态枚举
+ * 分区状态枚举
  */
 public enum BarStatusEnum {
     PUBLIC(0,"公开"),

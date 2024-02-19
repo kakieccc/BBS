@@ -4,6 +4,9 @@ import com.kakie.bbs_backend.dto.BarDTO;
 import com.kakie.bbs_backend.model.domain.Bar;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kakie.bbs_backend.model.domain.User;
+import com.kakie.bbs_backend.model.request.BarJoinRequest;
+import com.kakie.bbs_backend.model.request.BarQuitRequest;
+import com.kakie.bbs_backend.model.request.BarUpdateRequest;
 import com.kakie.bbs_backend.vo.UserBarVO;
 
 import java.util.List;
@@ -23,10 +26,42 @@ public interface BarService extends IService<Bar> {
     long addBar(Bar bar, User loginUser);
 
     /**
-     * 查询队伍列表
+     * 查询分区列表
      * @param barDTO
      * @param isAdmin
      * @return
      */
-    List<UserBarVO> listTeams(BarDTO barDTO, boolean isAdmin);
+    List<UserBarVO> listBars(BarDTO barDTO, boolean isAdmin);
+
+    /**
+     * 修改分区
+     * @param barUpdateRequest
+     * @param loginUser
+     * @return
+     */
+    boolean updateBar(BarUpdateRequest barUpdateRequest, User loginUser);
+
+    /**
+     * 用户加入分区
+     * @param barJoinRequest
+     * @param loginUser
+     * @return
+     */
+    boolean joinBar(BarJoinRequest barJoinRequest, User loginUser);
+
+    /**
+     * 退出分区
+     * @param barQuitRequest
+     * @param loginUser
+     * @return
+     */
+    boolean quitBar(BarQuitRequest barQuitRequest, User loginUser);
+
+    /**
+     * 删除分区
+     * @param id
+     * @param loginUser
+     * @return
+     */
+    boolean deleteBar(long id, User loginUser);
 }

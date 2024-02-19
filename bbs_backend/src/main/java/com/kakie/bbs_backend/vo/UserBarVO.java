@@ -6,9 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 队伍和用户信息封装类（脱敏）
- *
- * @author yupi
+ * 分区和用户信息封装类（脱敏）
  */
 @Data
 public class UserBarVO implements Serializable {
@@ -28,11 +26,6 @@ public class UserBarVO implements Serializable {
      * 描述
      */
     private String description;
-
-    /**
-     * 过期时间
-     */
-    private Date expireTime;
 
     /**
      * 用户id
@@ -58,11 +51,6 @@ public class UserBarVO implements Serializable {
      * 创建人用户信息
      */
     private UserVO createUser;
-
-    /**
-     * 已加入的用户数
-     */
-    private Integer hasJoinNum;
 
     /**
      * 是否已加入分区

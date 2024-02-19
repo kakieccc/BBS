@@ -8,7 +8,6 @@
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
-            <result property="expireTime" column="expireTime" jdbcType="TIMESTAMP"/>
             <result property="userId" column="userId" jdbcType="BIGINT"/>
             <result property="status" column="status" jdbcType="INTEGER"/>
             <result property="password" column="password" jdbcType="VARCHAR"/>
@@ -19,7 +18,7 @@
 
     <sql id="Base_Column_List">
         id,name,description,
-        expireTime,userId,status,
+        userId,status,
         password,createTime,updateTime,
         isDelete
     </sql>

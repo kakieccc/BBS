@@ -10,6 +10,9 @@ import com.kakie.bbs_backend.exception.BusinessException;
 import com.kakie.bbs_backend.model.domain.Bar;
 import com.kakie.bbs_backend.model.domain.User;
 import com.kakie.bbs_backend.model.request.BarAddRequest;
+import com.kakie.bbs_backend.model.request.BarJoinRequest;
+import com.kakie.bbs_backend.model.request.BarQuitRequest;
+import com.kakie.bbs_backend.model.request.BarUpdateRequest;
 import com.kakie.bbs_backend.service.BarService;
 import com.kakie.bbs_backend.service.UserService;
 import com.kakie.bbs_backend.vo.UserBarVO;
@@ -42,16 +45,17 @@ public class BarController {
         User loginUser = userService.getLoginUser(request);
         Bar bar = new Bar();
         BeanUtils.copyProperties(barAddRequest,bar);
-        long teamId = barService.addBar(bar, loginUser);
-        return ResultUtils.success(teamId);
+        long barId = barService.addBar(bar, loginUser);
+        return ResultUtils.success(barId);
     }
 
     @PostMapping("/delete")
-    public BaseResponse<Boolean> deleteBar(@RequestBody long id) {
+    public BaseResponse<Boolean> deleteBar(@RequestBody long id,HttpServletRequest request) {
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        boolean result = barService.removeById(id);
+        User loginUser = userService.getLoginUser(request);
+        boolean result = barService.deleteBar(id,loginUser);
         if (!result) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "删除失败");
         }
@@ -59,11 +63,12 @@ public class BarController {
     }
 
     @PostMapping("/update")
-    public BaseResponse<Boolean> updateBar(@RequestBody Bar bar) {
-        if (bar == null) {
+    public BaseResponse<Boolean> updateBar(@RequestBody BarUpdateRequest barUpdateRequest, HttpServletRequest request) {
+        if (barUpdateRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        boolean result = barService.updateById(bar);
+        User loginUser = userService.getLoginUser(request);
+        boolean result = barService.updateBar(barUpdateRequest,loginUser);
         if (!result) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "更新失败");
         }
@@ -83,12 +88,12 @@ public class BarController {
     }
 
     @GetMapping("/list")
-    public BaseResponse<List<UserBarVO>> listTeams(BarDTO barDTO, HttpServletRequest request){
+    public BaseResponse<List<UserBarVO>> listBars(BarDTO barDTO, HttpServletRequest request){
         if (barDTO == null){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         boolean isAdmin = userService.isAdmin(request);
-        List<UserBarVO> barList = barService.listTeams(barDTO,isAdmin);
+        List<UserBarVO> barList = barService.listBars(barDTO,isAdmin);
         return ResultUtils.success(barList);
     }
 
@@ -103,5 +108,25 @@ public class BarController {
         QueryWrapper<Bar> queryWrapper = new QueryWrapper<>(bar);
         Page<Bar> resultPage = barService.page(page,queryWrapper);
         return ResultUtils.success(resultPage);
+    }
+
+    @PostMapping("/join")
+    public BaseResponse<Boolean> joinBar(@RequestBody BarJoinRequest barJoinRequest, HttpServletRequest request){
+        if (barJoinRequest==null){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        User loginUser = userService.getLoginUser(request);
+        boolean result = barService.joinBar(barJoinRequest, loginUser);
+        return ResultUtils.success(result);
+    }
+
+    @PostMapping("/quit")
+    public BaseResponse<Boolean> quitBar(@RequestBody BarQuitRequest barQuitRequest, HttpServletRequest request){
+        if (barQuitRequest == null){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        User loginUser = userService.getLoginUser(request);
+        boolean result = barService.quitBar(barQuitRequest, loginUser);
+        return ResultUtils.success(result);
     }
 }
