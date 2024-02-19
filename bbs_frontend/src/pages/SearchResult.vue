@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import 'vant/es/toast/style'
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import myAxios from "../plugins/myAxios.ts";
 import qs from "qs";
-import { showToast } from "vant";
+import { showFailToast} from "vant";
 
 const route = useRoute();
 const { tags } = route.query;
@@ -24,7 +25,7 @@ onMounted(async () => {
       })
       .catch(function (error) {
         console.error('/user/search/tags error', error);
-        showToast('请求失败');
+        showFailToast('请求失败');
       })
   console.log(userListData)
   if (userListData) {

@@ -1,12 +1,8 @@
-<template>
-  <user-card-list :user-list="userList" :loading="loading" />
-  <van-empty v-if="!userList || userList.length < 1" description="数据为空" />
-</template>
-
 <script setup lang="ts">
+import 'vant/es/toast/style'
 import { ref, watchEffect } from "vue";
 import myAxios from "../plugins/myAxios";
-import { Toast } from "vant";
+import { showFailToast} from "vant";
 import UserCardList from "../components/UserCardList.vue";
 import { UserType } from "../models/user";
 
@@ -33,7 +29,7 @@ const loadData = async () => {
     })
     .catch(function (error) {
       console.error("/user/recommend error", error);
-      Toast.fail("请求失败");
+      showFailToast("请求失败");
     });
   if (userListData) {
     userListData.forEach((user: UserType) => {
@@ -50,5 +46,11 @@ watchEffect(() => {
   loadData();
 });
 </script>
+
+<template>
+  <user-card-list :user-list="userList" :loading="loading" />
+  <van-empty v-if="!userList || userList.length < 1" description="数据为空" />
+</template>
+
 
 <style scoped></style>

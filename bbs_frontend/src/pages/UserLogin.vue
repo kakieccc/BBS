@@ -10,7 +10,7 @@ const onSubmit = async () => {
     userAccount: userAccount.value,
     userPassword: userPassword.value,
   })
-  if(res.status === 200 && res.data) {
+  if(res?.code === 0 && res.data) {
     //登陆成功后跳转到之前的页面
     const redirectUrl = route.query?.redirect as string ?? '/';
     window.location.href = redirectUrl;

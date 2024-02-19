@@ -45,6 +45,12 @@ public class BarServiceImpl extends ServiceImpl<BarMapper, Bar>
     @Resource
     private UserService userService;
 
+    /**
+     * 添加分区
+     * @param bar
+     * @param loginUser
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public long addBar(Bar bar, User loginUser) {
@@ -81,6 +87,13 @@ public class BarServiceImpl extends ServiceImpl<BarMapper, Bar>
             if (StringUtils.isBlank(password) || password.length() > 32) {
                 throw new BusinessException(ErrorCode.PARAMS_ERROR, "密码设置不正确");
             }
+        }
+        //分区名称不能重复
+        QueryWrapper<Bar> nameQueryWrapper = new QueryWrapper<>();
+        nameQueryWrapper.eq("name", name);
+        long hasName = this.count(nameQueryWrapper);
+        if (hasName > 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "分区名称重复");
         }
         //校验用户最多创建5个分区
         QueryWrapper<Bar> queryWrapper = new QueryWrapper<>();

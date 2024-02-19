@@ -26,6 +26,7 @@ myAxios.interceptors.response.use(
     // 对响应数据做点什么
     //未登录强制跳转到登录页
     if(response?.data?.code === 40101) {
+      alert("请先登录")
       const redirectUrl = window.location.href;
       window.location.href = `/user/login?redirect=${redirectUrl}`;
     }

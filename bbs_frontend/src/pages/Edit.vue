@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import 'vant/es/toast/style'
 import { useRoute, useRouter } from "vue-router";
 import { ref } from "vue";
 import myAxios from "../plugins/myAxios";
