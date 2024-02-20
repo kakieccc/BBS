@@ -1,13 +1,13 @@
 package com.kakie.bbs_backend.service;
 
-import com.kakie.bbs_backend.dto.BarDTO;
+import com.kakie.bbs_backend.model.dto.BarDTO;
 import com.kakie.bbs_backend.model.domain.Bar;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kakie.bbs_backend.model.domain.User;
 import com.kakie.bbs_backend.model.request.BarJoinRequest;
 import com.kakie.bbs_backend.model.request.BarQuitRequest;
 import com.kakie.bbs_backend.model.request.BarUpdateRequest;
-import com.kakie.bbs_backend.vo.UserBarVO;
+import com.kakie.bbs_backend.model.vo.UserBarVO;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kakie.bbs_backend.common.BarStatusEnum;
 import com.kakie.bbs_backend.common.ErrorCode;
-import com.kakie.bbs_backend.dto.BarDTO;
+import com.kakie.bbs_backend.model.dto.BarDTO;
 import com.kakie.bbs_backend.exception.BusinessException;
 import com.kakie.bbs_backend.model.domain.Bar;
 import com.kakie.bbs_backend.model.domain.User;
@@ -17,8 +17,8 @@ import com.kakie.bbs_backend.service.BarService;
 import com.kakie.bbs_backend.mapper.BarMapper;
 import com.kakie.bbs_backend.service.UserBarService;
 import com.kakie.bbs_backend.service.UserService;
-import com.kakie.bbs_backend.vo.UserBarVO;
-import com.kakie.bbs_backend.vo.UserVO;
+import com.kakie.bbs_backend.model.vo.UserBarVO;
+import com.kakie.bbs_backend.model.vo.UserVO;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -136,6 +136,10 @@ public class BarServiceImpl extends ServiceImpl<BarMapper, Bar>
             Long id = barDTO.getId();
             if (id != null && id > 0) {
                 queryWrapper.eq("id", id);
+            }
+            List<Long> idList = barDTO.getIdList();
+            if (CollectionUtils.isNotEmpty(idList)) {
+                queryWrapper.in("id", idList);
             }
             String searchText = barDTO.getKeyword();
             if (StringUtils.isNotBlank(searchText)) {

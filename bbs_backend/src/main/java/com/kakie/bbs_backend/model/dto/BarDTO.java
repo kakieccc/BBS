@@ -1,7 +1,9 @@
-package com.kakie.bbs_backend.dto;
+package com.kakie.bbs_backend.model.dto;
 
 import com.kakie.bbs_backend.common.PageRequest;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class BarDTO extends PageRequest {
@@ -9,6 +11,12 @@ public class BarDTO extends PageRequest {
      * id
      */
     private Long id;
+
+    /**
+     * id 列表
+     */
+    private List<Long> idList;
+
 
     /**
      * 分区名称

@@ -1,20 +1,32 @@
-<script setup lang="ts">
-import 'vant/es/toast/style'
-import { useRouter } from "vue-router";
-import { ref } from "vue";
+<script setup>
+import { useRoute, useRouter } from "vue-router";
+import { onMounted, ref } from "vue";
 import myAxios from "../plugins/myAxios.ts";
-import { showFailToast, showSuccessToast} from "vant";
+import { Toast } from "vant";
 
 const router = useRouter();
+const route = useRoute();
 
-const initFormData = {
-  name: "",
-  description: "",
-  password: "",
-  status: 0,
-  userId: 0,
-};
-const addBarData = ref({ ...initFormData });
+const addBarData = ref({});
+
+const id = route.query.id;
+//获取之前的分区信息
+onMounted(async () => {
+  if (id <= 0) {
+    showFailToast("加载分区失败，请重试");
+    return;
+  }
+  const res = await myAxios.get("/bar/get", {
+    params: {
+      id,
+    },
+  });
+  if (res?.code === 0) {
+    addBarData.value = res.data;
+  } else {
+    showFailToast("加载分区失败，请重试");
+  }
+});
 
 //提交
 const onSubmit = async () => {
@@ -23,18 +35,17 @@ const onSubmit = async () => {
     status: Number(addBarData.value.status),
   };
   //todo 前端数据校验
-  const res = await myAxios.post("/bar/add", postData);
+  const res = await myAxios.post("/bar/update", postData);
   if (res?.code === 0 && res.data) {
-    showSuccessToast("添加成功");
+    Toast.success("更新成功");
     router.push({
       path: "/bar",
       replace: true,
     });
   } else {
-    showFailToast("添加失败");
+    Toast.fail("更新失败");
   }
 };
-
 </script>
 
 <template>
@@ -46,7 +57,7 @@ const onSubmit = async () => {
           name="name"
           label="分区名"
           placeholder="请输入分区名"
-          :rules="[{ required: true, message: '请输入分区名称' }]"
+          :rules="[{ required: true, message: '请输入分区名' }]"
         />
         <van-field
           v-model="addBarData.description"
@@ -86,5 +97,7 @@ const onSubmit = async () => {
     </van-form>
   </div>
 </template>
+
+
 
 <style scoped></style>

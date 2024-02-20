@@ -1,4 +1,4 @@
-package com.kakie.bbs_backend.vo;
+package com.kakie.bbs_backend.model.vo;
 
 import lombok.Data;
 

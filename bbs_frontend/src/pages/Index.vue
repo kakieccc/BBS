@@ -15,6 +15,7 @@ const loading = ref(true);
 const loadData = async () => {
   let userListData;
   loading.value = true;
+  // todo，搜索算法，根据相似度进行推荐 
   // 普通模式，直接分页查询用户
   userListData = await myAxios
     .get("/user/recommend", {
