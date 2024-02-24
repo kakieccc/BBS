@@ -3,19 +3,22 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import routes from "../config/route.ts";
 
-const DEFAULT_TITLE = '伙伴匹配';
+const showNavBar = ref(true);
+const showTabBar = ref(true);
+const DEFAULT_TITLE = "伙伴匹配";
 const title = ref(DEFAULT_TITLE);
 const router = useRouter();
-/**
- * 根据路由切换标题
- */
- router.beforeEach((to) => {
+router.beforeEach((to) => {
+  //根据路由切换标题
   const toPath = to.path;
   const route = routes.find((route) => {
     return toPath == route.path;
-  })
+  });
   title.value = route?.title ?? DEFAULT_TITLE;
-})
+  //控制tabbar和navbar的显示
+  showNavBar.value = to.path !== "/user/login";
+  showTabBar.value = to.path !== "/user/login";
+});
 
 const onClickLeft = () => {
   router.back();
@@ -23,13 +26,12 @@ const onClickLeft = () => {
 const onClickRight = () => {
   router.push("/search");
 };
-
-
 </script>
 
 <template>
   <van-nav-bar
     :title="title"
+    v-if="showNavBar"
     left-arrow
     @click-left="onClickLeft"
     @click-right="onClickRight"
@@ -40,9 +42,9 @@ const onClickRight = () => {
   </van-nav-bar>
 
   <div id="content">
-    <router-view/>
+    <router-view />
   </div>
-  <van-tabbar route>
+  <van-tabbar route v-if="showNavBar">
     <van-tabbar-item icon="home-o" replace to="/" name="home"
       >首页</van-tabbar-item
     >
