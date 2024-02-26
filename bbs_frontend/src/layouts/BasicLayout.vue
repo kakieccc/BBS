@@ -16,8 +16,8 @@ router.beforeEach((to) => {
   });
   title.value = route?.title ?? DEFAULT_TITLE;
   //控制tabbar和navbar的显示
-  showNavBar.value = to.path !== "/user/login";
-  showTabBar.value = to.path !== "/user/login";
+  showNavBar.value = to.path !== "/user/login" && to.path !== "/user/register";
+  showTabBar.value = to.path !== "/user/login" && to.path !== "/user/register";
 });
 
 const onClickLeft = () => {
@@ -44,7 +44,7 @@ const onClickRight = () => {
   <div id="content">
     <router-view />
   </div>
-  <van-tabbar route v-if="showNavBar">
+  <van-tabbar route v-if="showTabBar">
     <van-tabbar-item icon="home-o" replace to="/" name="home"
       >首页</van-tabbar-item
     >

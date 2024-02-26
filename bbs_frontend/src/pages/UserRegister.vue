@@ -3,21 +3,28 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import myAxios from "../plugins/myAxios";
 import imgSrc from "../assets/login.jpg";
+import { showFailToast, showSuccessToast } from "vant";
+const userName = ref("");
 const userAccount = ref("");
 const userPassword = ref("");
+const checkPassword = ref("");
 const router = useRouter();
-const onSubmit = async () => {
-  const res = await myAxios.post("/user/login", {
+const onRegister = async () => {
+  const res = await myAxios.post("/user/register", {
+    userName: userName.value,
     userAccount: userAccount.value,
     userPassword: userPassword.value,
+    checkPassword: checkPassword.value,
   });
   if (res?.code === 0 && res.data) {
-    //登陆成功后跳转到主页
-    router.replace("/");
+    //注册成功后跳转到登录页
+    showSuccessToast("注册成功!");
+    setTimeout(() => {
+    router.replace("/user/login");
+  }, 3000);
+  } else {
+    showFailToast(res.description);
   }
-};
-const onRegister = async () => {
-  router.push("/user/register");
 };
 </script>
 
@@ -27,10 +34,17 @@ const onRegister = async () => {
   </div>
   <div id="content">
     <div id="loginform">
-      <h2 style="margin-left: 5%; color: #ffffff">Hello ,</h2>
-      <h3 style="margin-left: 5%; color: #ffffff">Find you want !</h3>
+      <h2 style="margin-left: 5%; color: #ffffff">Hey ,</h2>
+      <h3 style="margin-left: 5%; color: #ffffff">Welcome to join us !</h3>
       <van-form @submit="onSubmit">
         <van-cell-group inset>
+          <van-field
+            v-model="userName"
+            name="userName"
+            label="名称"
+            placeholder="请输入名称"
+            :rules="[{ required: true, message: '请填写名称' }]"
+          />
           <van-field
             v-model="userAccount"
             name="userAccount"
@@ -46,18 +60,15 @@ const onRegister = async () => {
             placeholder="请输入密码"
             :rules="[{ required: true, message: '请填写密码' }]"
           />
+          <van-field
+            v-model="checkPassword"
+            type="password"
+            name="checkPassword"
+            label="校验密码"
+            placeholder="请二次输入密码"
+            :rules="[{ required: true, message: '请二次输入密码' }]"
+          />
         </van-cell-group>
-        <div style="margin: 16px">
-          <van-button
-            round
-            block
-            type="primary"
-            native-type="submit"
-            style="background-color: #828d91; opacity: 0.7"
-          >
-            登录
-          </van-button>
-        </div>
       </van-form>
       <div style="margin: 16px">
         <van-button
@@ -71,7 +82,6 @@ const onRegister = async () => {
           注册
         </van-button>
       </div>
-      <p style="color: #1989fa; margin-left: 75%">忘记密码？</p>
     </div>
   </div>
 </template>

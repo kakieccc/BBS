@@ -10,6 +10,7 @@ import BarUpdate from "../pages/BarUpdate.vue";
 import UserBarCreate from "../pages/UserBarCreate.vue";
 import UserBarJoin from "../pages/UserBarJoin.vue";
 import UserUpdate from "../pages/UserUpdate.vue";
+import UserRegister from "../pages/UserRegister.vue";
 
 
 // 定义路由
@@ -22,6 +23,7 @@ const routes = [
   { path: "/user/edit/", component: Edit ,title:"编辑用户"},
   { path: "/user/list", component: SearchResult ,title:"用户列表"},
   { path: "/user/login", component: UserLogin ,title:"登录"},
+  { path: "/user/register", component: UserRegister ,title:"注册"},
   { path: "/user/update", component: UserUpdate ,title:"更新用户"},
   { path: "/user/bar/join", component: UserBarJoin ,title:"加入贴吧"},
   { path: "/user/bar/create", component: UserBarCreate ,title:"创建贴吧"},
