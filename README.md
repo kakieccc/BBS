@@ -1,17 +1,21 @@
 # 基本介绍
  基于Vue3 + Springboot3实现的前后端分离仿百度贴吧移动端论坛项目。
 
-这个项目写的很简陋，~~主要是太懒了，前端基本没咋写，就把这个项目当作一个独立的后端项目吧~~。主要目的是熟悉SpringBoot3和vite以及vant ui库。此外也试着写了一下分布式锁。
+这个项目写的很简陋，~~主要是太懒了，前端基本没咋写，就把这个项目当作一个独立的后端项目吧~~。
+
+主要目的是熟悉SpringBoot3和vite以及vant ui库。此外也试着写了一下分布式锁和缓存
 
 # 效果图（Todo)
 
-太丑了暂时只放一些
+![image-20240227160830978](README/image-20240227160830978.png)
+
+![image-20240227160846648](README/image-20240227160846648.png)
 
 <img src="README/image-20240220130903338.png" alt="image-20240220130903338" style="zoom:50%;" />
 
 <img src="README/image-20240220130828616.png" alt="image-20240220130828616" style="zoom:50%;" />
 
-<img src="README/image-20240220130749360.png" alt="image-20240220130746859" style="zoom:50%;" />
+![image-20240227160908377](README/image-20240227160908377.png)
 
 # 技术
 
