@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static com.kakie.bbs_backend.contant.UserContant.ADMIN_ROLE;
+
 import static com.kakie.bbs_backend.contant.UserContant.USER_LOGIN_STATE;
 
 /**

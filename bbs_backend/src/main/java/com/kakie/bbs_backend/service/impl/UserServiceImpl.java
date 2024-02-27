@@ -173,6 +173,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public int userLogout(HttpServletRequest request) {
         // 移除登录态
         request.getSession().removeAttribute(USER_LOGIN_STATE);
+        System.out.println("退出成功");
         return 1;
     }
 

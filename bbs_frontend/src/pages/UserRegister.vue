@@ -18,10 +18,10 @@ const onRegister = async () => {
   });
   if (res?.code === 0 && res.data) {
     //注册成功后跳转到登录页
-    showSuccessToast("注册成功!");
+    showSuccessToast("注册成功!\n即将为你跳转");
     setTimeout(() => {
     router.replace("/user/login");
-  }, 3000);
+  }, 1000);
   } else {
     showFailToast(res.description);
   }

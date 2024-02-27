@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import myAxios from "../plugins/myAxios";
 import imgSrc from "../assets/login.jpg";
+import { showFailToast } from "vant";
 const userAccount = ref("");
 const userPassword = ref("");
 const router = useRouter();
@@ -19,6 +20,9 @@ const onSubmit = async () => {
 const onRegister = async () => {
   router.push("/user/register");
 };
+const onForget = () => {
+  showFailToast("还没有实现这个功能喵");
+}
 </script>
 
 <template>
@@ -32,19 +36,23 @@ const onRegister = async () => {
       <van-form @submit="onSubmit">
         <van-cell-group inset>
           <van-field
+            label-width="3em"
             v-model="userAccount"
             name="userAccount"
             label="账号"
             placeholder="请输入账号"
             :rules="[{ required: true, message: '请填写账号' }]"
+            required
           />
           <van-field
+            label-width="3em"
             v-model="userPassword"
             type="password"
             name="userPassword"
             label="密码"
             placeholder="请输入密码"
             :rules="[{ required: true, message: '请填写密码' }]"
+            required
           />
         </van-cell-group>
         <div style="margin: 16px">
@@ -71,7 +79,8 @@ const onRegister = async () => {
           注册
         </van-button>
       </div>
-      <p style="color: #1989fa; margin-left: 75%">忘记密码？</p>
+      <!-- todo:实现记住密码和找回密码功能 -->
+      <a style="color: #1989fa; margin-left: 75%; text-decoration: underline;" @click="onForget">忘记密码？</a>
     </div>
   </div>
 </template>
